@@ -10,7 +10,7 @@ class Base
 
 
 
-  public static function locale()
+  public static function all()
   {
     $out  = array();
     $lang = \Locale\Config::get('default') ?: 'en';
@@ -31,11 +31,12 @@ class Base
     return $out;
   }
 
-  public static function digest($phrase, $default = '')
+  public static function digest($phrase, $default = '', array $params = array())
   {
     if (preg_match_all('/[%#:](\d+\s\w+|\w+)\b/', $phrase, $matches)) {
       foreach ($matches[0] as $i => $old) {
-        $tmp = array_filter(explode(' ', $matches[1][$i]), 'strlen');
+        $tmp   = array_filter(explode(' ', $matches[1][$i]), 'strlen');
+        $tmp []= $params;
 
         $callback  = strpos($old, ' ') ? 'pluralize' : 'translate';
         $new = call_user_func_array("static::$callback", $tmp);
@@ -250,7 +251,6 @@ class Base
     } elseif (preg_match('/^[A-Z][a-z]/', $key)) {
       return ucwords($tmp); // capitalize
     }
-
     return $tmp ?: $default;
   }
 
