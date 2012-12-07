@@ -41,7 +41,7 @@ class Datetime
     $with = preg_replace_callback(static::$fmt_expr, function ($match)
       use ($of) {
         $test = date($match[1], $of ? ( ! is_numeric($of) ? strtotime($of) : $of) : time());
-        $test = is_numeric($test) ? $test : \Locale\Base::translate(strtolower($test), $test);
+        $test = is_numeric($test) ? $test : \Locale\Base::translate("date.$test");
 
         return $test;
       }, $with);
@@ -178,7 +178,7 @@ class Datetime
     }
 
     foreach ($parts as $key => $value) {
-      $out []= \Locale\Base::pluralize((int) $value, 'date.' . strtolower($key), $key);
+      $out []= \Locale\Base::pluralize((int) $value, 'date.' . strtolower($key));
     }
 
     return $out;

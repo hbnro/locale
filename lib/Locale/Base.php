@@ -33,7 +33,7 @@ class Base
 
   public static function digest($phrase, $default = '', array $params = array())
   {
-    if (preg_match_all('/[%#:](\d+\s\w+|\w+)\b/', $phrase, $matches)) {
+    if (preg_match_all('/[%#:](\d+\s[\w.]+|[\w.]+)\b/', $phrase, $matches)) {
       foreach ($matches[0] as $i => $old) {
         $tmp   = array_filter(explode(' ', $matches[1][$i]), 'strlen');
         $tmp []= $params;
@@ -88,7 +88,7 @@ class Base
 
     if (is_array($params['default'])) {
       foreach ($params['default'] as $one) {
-        if ( ! preg_match('/^[a-z][a-z0-9_]+$/', $one)) {
+        if ( ! preg_match('/^[a-z][a-z0-9_.]+$/', $one)) {
           $params['default'] = $one;
           break;
         } else {
@@ -246,9 +246,9 @@ class Base
 
     @eval("\$tmp = isset(\$set['$idx']) ? \$set['$idx'] : (isset(\$set['$idy']) ? \$set['$idy'] : \$default);");
 
-    if (preg_match('/^[A-Z]{2,}/', $key)) {
+    if (preg_match('/^[A-Z]{2,}/', $test)) {
       return strtoupper($tmp); // uppercase
-    } elseif (preg_match('/^[A-Z][a-z]/', $key)) {
+    } elseif (preg_match('/^[A-Z][a-z]/', $test)) {
       return ucwords($tmp); // capitalize
     }
     return $tmp ?: $default;
