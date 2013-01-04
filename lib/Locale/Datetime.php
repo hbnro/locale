@@ -81,7 +81,7 @@ class Datetime
         }
 
         if ($diff < 3600) {
-          return sprintf(\Locale\Base::translate('date.minutes_ago'), floor($diff / 60));
+          return \Locale\Base::pluralize(floor($diff / 60), 'date.minutes_ago');
         }
 
         if ($diff < 7200) {
@@ -89,7 +89,7 @@ class Datetime
         }
 
         if ($diff < 86400) {
-          return sprintf(\Locale\Base::translate('date.hours_ago'), floor($diff / 3600));
+          return \Locale\Base::pluralize(floor($diff / 3600), 'date.hours_ago');
         }
       }
 
@@ -98,11 +98,11 @@ class Datetime
       }
 
       if ($day_diff < 7) {
-        return sprintf(\Locale\Base::translate('date.days_ago'), $day_diff);
+        return \Locale\Base::pluralize($day_diff, 'date.days_ago');
       }
 
       if ($day_diff < 31) {
-        return sprintf(\Locale\Base::translate('date.weeks_ago'), ceil($day_diff / 7));
+        return \Locale\Base::pluralize(ceil($day_diff / 7), 'date.weeks_ago');
       }
 
       if ($day_diff < 60) {

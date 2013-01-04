@@ -58,7 +58,7 @@ class Base
     $number = number_format($number, $decimal, $separator, $thousands);
 
     $string = static::translate($string, $params);
-    $string = preg_replace('/(?<!%)%/', $number, $string);
+    $string = sprintf($string, $number);
 
     return $string;
   }
@@ -102,12 +102,12 @@ class Base
       }
     }
 
-    $from    = static::load_locale();
+    $from   = static::load_locale();
 
-    $prefix  = $params['scope'] ? "$params[scope]." : '';
-    $string  = static::fetch($from, "$prefix$params[string]", $params['default'] ?: "$prefix$params[string]");
+    $prefix = $params['scope'] ? "$params[scope]." : '';
+    $string = static::fetch($from, "$prefix$params[string]", $params['default'] ?: "$prefix$params[string]");
 
-    $string  = preg_replace_callback('/%\{(.+?)\}/', function ($match)
+    $string = preg_replace_callback('/%\{(.+?)\}/', function ($match)
       use ($params) {
         return isset($params[$match[1]]) ? $params[$match[1]] : $match[1];
       }, $string);
