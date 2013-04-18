@@ -34,8 +34,6 @@ class Datetime
                     'seconds' => 1,
                   );
 
-
-
   public static function format($with, $of = 0)
   {
     $with = preg_replace_callback(static::$fmt_expr, function ($match)
@@ -66,7 +64,6 @@ class Datetime
     if ($to <= 0) {
       $to = time();
     }
-
 
     $diff = $to - $since;
 

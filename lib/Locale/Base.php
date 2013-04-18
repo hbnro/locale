@@ -8,8 +8,6 @@ class Base
   private static $tree = array();
   private static $cache = array();
 
-
-
   public static function all()
   {
     $out  = array();
@@ -77,7 +75,6 @@ class Base
       $params['default'] = (string) $default;
     }
 
-
     $params = array_merge(array(
       'scope'   => '',
       'string'  => '',
@@ -120,7 +117,6 @@ class Base
     if (is_array($from)) {
       return array_map('static::load_path', $from);
     }
-
 
     $dir = realpath($from);
 
@@ -173,7 +169,6 @@ class Base
       return FALSE;
     }
 
-
     ob_start();
     $out = include $from;
     ob_end_clean();
@@ -190,7 +185,6 @@ class Base
     if ( ! is_file($from)) {
       return FALSE;
     }
-
 
     $out      = array();
     $resource = fopen($from, 'rb');
@@ -216,7 +210,6 @@ class Base
       return FALSE;
     }
 
-
     $out = parse_ini_file($from, FALSE);
 
     return $out;
@@ -233,7 +226,6 @@ class Base
     return \Symfony\Component\Yaml\Yaml::parse($text);
   }
 
-
   private static function fetch(array $set, $key, $default = FALSE)
   {
     $key = strtr($key, array('[' => '.', ']' => ''));
@@ -243,7 +235,6 @@ class Base
     $idy = join("']['", $parts);
     $idx = strtr(strtolower(join("']['", $parts)), ' ', '_');
 
-
     @eval("\$tmp = isset(\$set['$idx']) ? \$set['$idx'] : (isset(\$set['$idy']) ? \$set['$idy'] : \$default);");
 
     if (preg_match('/^[A-Z]{2,}/', $test)) {
@@ -251,6 +242,7 @@ class Base
     } elseif (preg_match('/^[A-Z][a-z]/', $test)) {
       return ucwords($tmp); // capitalize
     }
+
     return $tmp ?: $default;
   }
 
